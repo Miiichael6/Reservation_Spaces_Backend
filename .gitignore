@@ -68,3 +68,5 @@ Thumbs.db
 *.swp
 .env
 .env.development
+
+config_change_user.txt
