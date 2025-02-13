@@ -1,0 +1,70 @@
+# 🛑 Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ⚡ TypeScript
+*.tsbuildinfo
+
+# 💾 Logs
+logs
+*.log
+*.log.*
+log/
+error.log
+debug.log
+
+# ⚙️ Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+
+# ⚡ Compilación y dependencias
+dist/
+out/
+build/
+coverage/
+.cache/
+temp/
+
+# ⚡ TypeORM
+ormconfig.json
+ormconfig.ts
+data-source.ts
+
+# 📦 IDEs / Editores
+.vscode/
+.idea/
+*.sublime-workspace
+
+# 🚀 Next.js / Nuxt / Vite / Angular
+.next/
+.nuxt/
+.vite/
+.angular/
+
+# 📦 React / Vue / Svelte / Lit
+*.cache/
+public/
+static/
+.svelte-kit/
+astro/
+
+# 🔥 Docker
+docker-compose.override.yml
+.dockerignore
+
+# 🔍 Misc
+.DS_Store
+Thumbs.db
+*.swp
+.env
+.env.development

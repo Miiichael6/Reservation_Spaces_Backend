@@ -1,0 +1,13 @@
+services:
+  reservation_spaces: 
+    container_name: reservation_spaces
+    image: postgres:15.1
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=${PG_DATABASE}
+      - POSTGRES_USER=${PG_USERNAME}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+    volumes:
+      - ./reservation_spaces:/var/lib/postgresql/data
