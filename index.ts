@@ -30,7 +30,6 @@ async function bootstrap() {
     });
     const app = server.build();
     const httpServer = createServer(app);
-    
     initWebSocket(httpServer)
     const PORT = process.env.PORT || 3000;
     httpServer.listen(PORT);
