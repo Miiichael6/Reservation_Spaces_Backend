@@ -1,8 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-import { IsEmail, IsNotEmpty, IsNumber, IsString, Min } from "class-validator"; 
-import { Expose, Transform } from "class-transformer";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { IsArray, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Min, ValidateNested } from "class-validator"; 
+import { Exclude, Expose, Transform, Type } from "class-transformer";
+import { Reservation } from "../../reservations/domain/Reservation.entity";
 
-@Entity({ name: "User"})
+@Entity({ name: "users"})
 export class User {
   @PrimaryGeneratedColumn()
   @IsNumber()
@@ -16,20 +17,13 @@ export class User {
   @Expose()
   username: string = "";
 
-  @Column({ length: 10, nullable: false })
-  @IsString()
-  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
-  @IsNotEmpty()
-  @Expose()
-  name: string = "";
-
   @Column({ nullable: false })
   @IsEmail()
   @IsNotEmpty()
   @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @Expose()
   email: string = "";
-
+  
   @Column({ nullable: false })
   @IsString()
   @IsNotEmpty()
@@ -37,8 +31,32 @@ export class User {
   @Expose()
   password: string = "";
 
-  @Column()
+  @Column({ length: 10, nullable: false })
+  @IsString()
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsNotEmpty()
   @Expose()
-  description: string = "";
+  name: string = "";
+
+  @Column({ length: 20, nullable: false })
+  @IsString()
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @IsNotEmpty()
+  @Expose()
+  lastname: string = "";
+
+  @Column({ type: "jsonb" })
+  @IsArray()
+  @IsString({ each: true })
+  @Expose()
+  role: string[] = ["user"];
+
+  @Type(() => Reservation)
+  @Exclude()
+  @OneToMany(
+    () => Reservation, 
+    (reservation) => reservation.user, 
+    { cascade: true, onDelete: "CASCADE" }
+  )
+  reservations?: Reservation[]
 }

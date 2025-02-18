@@ -1,3 +1,3 @@
-export const table = "Users"
+export const table = "users"
 export const endpoint = `/${table}`
 

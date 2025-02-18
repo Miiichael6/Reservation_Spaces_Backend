@@ -14,9 +14,10 @@ import { initDatabase } from './src/core/infrastructure/database/initDatabase';
 import "colors"
 
 async function bootstrap() {
-    await initControllers()
-    await initContainers()
     await initDatabase()
+    await initContainers()
+    await initControllers()
+    // await loadEntities()
     const server = new InversifyExpressServer(container, null, { rootPath: `/api` });
     server.setConfig((app) => {
         app.use(express.json());

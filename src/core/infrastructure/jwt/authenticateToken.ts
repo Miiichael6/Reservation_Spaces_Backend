@@ -1,14 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "../../../modules/users/domain/User.entity";
+import { verifyJsonWebToken } from "./verifyJsonWebToken";
 
 export function authenticateToken (req: Request, res: Response, next: NextFunction){
     const tokenHeader = req.header("Authorization")?.split(" ")[1];
-    if (!tokenHeader) {
-      res.status(401).send("Token no proporcionado");
-      return;
-    }
+    if (!tokenHeader) { res.status(401).send("Token no proporcionado"); return; }
     try {
-      const userByToken = this.verifyJsonWebToken(tokenHeader) as Partial<User>;
+      const userByToken = verifyJsonWebToken(tokenHeader) as Partial<User>;
       req.user = userByToken;
       next();
     } catch (error) {

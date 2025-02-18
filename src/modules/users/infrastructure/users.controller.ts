@@ -11,6 +11,7 @@ import { User } from "../domain/User.entity";
 import { loginDto } from "../domain/dtos/login.dto";
 import GetLoggedUser from "../application/useCases/GetLoggedUser";
 import { authenticateToken } from "../../../core/infrastructure/jwt";
+import { QueryFailedError } from "typeorm";
 
 @controller(endpoint)
 export class UsersController extends BaseHttpController {
@@ -25,22 +26,20 @@ export class UsersController extends BaseHttpController {
   }
 
   @httpPost("/register")
-  async createUser(@requestBody() body: User, @response() res: Response) {
+  async createUser(@requestBody() body: User, @response() res: Response, @request() req: Request) {
     try {
       return await this.saveOne.exec(body);
     } catch (error: any) {
-      console.log(error);
-      res.status(400).send(error);
+      return this.validateErrors(error, req, res)
     }
   }
 
   @httpPost("/login")
-  async loginUser(@requestBody() body: loginDto, @response() res: Response) {
+  async loginUser(@requestBody() body: loginDto, @response() res: Response, @request() req: Request) {
     try {
       return await this.login.exec(body);
     } catch (error: any) {
-      console.log(error);
-      res.status(400).send(error);
+      this.validateErrors(error, req, res)
     }
   }
 
@@ -56,11 +55,12 @@ export class UsersController extends BaseHttpController {
   }
 
   @httpPost("/find")
-  async findUsers(@requestBody() body: any, @response() res: Response) {
+  async findUsers(@requestBody() body: any, @response() res: Response,@request() req: Request) {
     try {
+      console.log(req.user);
       return await this.find.exec();
     } catch (error: any) {
-      res.status(400).send(error.detail ? error.detail : error);
+      this.validateErrors(error, req, res)
     }
   }
   @httpPost("/updateOne")
@@ -70,5 +70,16 @@ export class UsersController extends BaseHttpController {
     } catch (error) {
       res.status(400).send(error);
     }
+  }
+
+  validateErrors(error: any, req: Request, res: Response) {
+    // console.log(error);
+    if(error instanceof QueryFailedError) {
+      return res.status(404).send({ 
+        message: error.message,
+        detail: error.driverError.detail as string
+      })
+    }
+    res.status(500).send(error);
   }
 }

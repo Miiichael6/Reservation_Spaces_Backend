@@ -10,6 +10,6 @@ export default class Find {
     ) {}
 
     async exec() {
-        return await this.userRepository.query(`SELECT * FROM "User";`)
+        return await this.userRepository.query(`SELECT * FROM "users";`)
     }
 }
