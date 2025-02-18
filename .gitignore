@@ -28,6 +28,7 @@ debug.log
 .env.*.local
 
 # ⚡ Compilación y dependencias
+reservation_spaces/*
 reservation_spaces/
 dist/
 out/
