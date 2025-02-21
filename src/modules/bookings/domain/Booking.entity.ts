@@ -1,8 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
-import { IsNumber, Min, IsString, IsNotEmpty, min, Length } from "class-validator"; 
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from "typeorm";
+import { IsNumber, Min, IsString, IsNotEmpty, min, Length, isEnum, IsEnum } from "class-validator"; 
 import { Expose } from "class-transformer";
 import { Reservation } from "../../reservations/domain/Reservation.entity";
-
+enum Status {
+    "FINISHED", "ACTIVE", "INACTIVE"
+}
 @Entity({ name: "bookings" })
 export class Booking {
     @PrimaryGeneratedColumn()
@@ -11,7 +13,7 @@ export class Booking {
     @Min(0)
     id: number;
 
-    @Column({ length: 50, nullable: false, unique: true })
+    @Column("varchar",{ length: 50, nullable: false })
     @IsString()
     @Length(4, 250)
     @Expose()
@@ -29,10 +31,16 @@ export class Booking {
     @Min(1)
     hour_end: number = 0;
 
-    @ManyToOne(
+    @Column("varchar", { nullable: false })
+    @IsNumber()
+    @Expose()
+    @IsEnum(Status)
+    status: string = "INACTIVE";
+
+    @OneToMany(
         () => Reservation,
-        (reservation) => reservation.bookings,
+        (reservation) => reservation.booking,
     )
     @JoinColumn({ name: 'reservation_id' }) 
-    reservation: Reservation;
+    reservation: Reservation[];
 }

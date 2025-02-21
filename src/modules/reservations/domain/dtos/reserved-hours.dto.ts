@@ -1,10 +1,19 @@
-import { IsNotEmpty } from "class-validator";
+import { Expose } from "class-transformer";
+import { IsNotEmpty, IsNumber, Max, Min } from "class-validator";
 
 export class ReservedHoursDto {
     @IsNotEmpty()
-    start: number; // Hora de inicio en formato HH:mm
+    @IsNumber()
+    @Expose()
+    @Min(6)
+    @Max(22)
+    hour_start: number = 0;
   
     @IsNotEmpty()
-    end: number; // Hora de fin en formato HH:mm
+    @IsNumber()
+    @Expose()
+    @Min(7)
+    @Max(23)
+    hour_end: number = 0;
   }
   

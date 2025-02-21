@@ -1,4 +1,4 @@
-import { globSync } from "fs";
+import { globSync } from "glob";
 import path from "path";
 
 export async function loadEntities() {
@@ -6,7 +6,7 @@ export async function loadEntities() {
   const isProd = process.env.NODE_ENV === "production";
   const extension = isProd ? "js" : "ts";
   const files = globSync(`**/*.entity.${extension}`, {
-    // ignore: ["node_modules/**", "dist"],
+    ignore: ["node_modules/**", "dist"],
   });
   const values = await storeEntities(files)
   return values
