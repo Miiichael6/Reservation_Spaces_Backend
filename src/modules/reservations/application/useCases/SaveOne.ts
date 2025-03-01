@@ -93,7 +93,8 @@ export default class SaveOne {
         reservation.booking = booking;
 
         const reservationCreated = await this.reservationRepository.save(reservation);
-        delete reservationCreated.user;
+        // delete reservationCreated.user;
+        delete reservationCreated.user.password
         delete reservationCreated.booking;
         return reservationCreated;
     }

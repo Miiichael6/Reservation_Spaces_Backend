@@ -6,5 +6,6 @@ export const RESERVATION_TYPES = {
     REPOSITORY: Symbol(`${table}_REPOSITORY`),
     UPDATE_ONE: Symbol(`${table}_UPDATE_ONE`),
     LOGIN: Symbol(`${table}_LOGIN`),
-    GET_LOGGED_USER: Symbol(`${table}_GET_LOGGED_USER`)
+    GET_LOGGED_USER: Symbol(`${table}_GET_LOGGED_USER`),
+    QUIT_RESERVATION: Symbol(`${table}_QUIT_RESERVATION`)
 };

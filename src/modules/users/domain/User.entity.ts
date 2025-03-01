@@ -11,6 +11,12 @@ export class User {
   @Min(0)
   id: number = 0;
 
+  @Column({ nullable: true })
+  @IsString()
+  @IsOptional()
+  @Expose()
+  user_picture: string = ""
+
   @Column({ length: 50, nullable: false, unique: true })
   @IsString()
   @IsNotEmpty()

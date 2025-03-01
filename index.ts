@@ -25,7 +25,7 @@ async function bootstrap() {
         app.use(express.json());
         app.use(morgan("dev"))
         app.use(cors({
-            origin: process.env.TEST_CORS,
+            origin: JSON.parse(process.env.TEST_CORS),
             methods: ["GET",'POST'],
             allowedHeaders: ['Content-Type', 'Authorization'],
         }));

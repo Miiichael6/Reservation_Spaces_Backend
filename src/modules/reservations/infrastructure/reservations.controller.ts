@@ -9,6 +9,8 @@ import UpdateOne from "../application/useCases/UpdateOne";
 import { authenticateToken } from "../../../core/infrastructure/jwt";
 import { ReservationSave } from "../domain/dtos/reservation-save.dto";
 import { ErrorsAdapter } from "../../../core/infrastructure/adapter/error/errorsAdapter";
+import QuitReservation from "../application/useCases/QuitReservation";
+import { ReservationDelete } from "../domain/dtos/reservation-delete.dto";
 
 @controller(endpoint)
 export class ReservationController extends BaseHttpController {
@@ -16,6 +18,7 @@ export class ReservationController extends BaseHttpController {
     @inject(RESERVATION_TYPES.SAVE_ONE) private readonly saveOne: SaveOne,
     @inject(RESERVATION_TYPES.FIND) private readonly find: Find,
     @inject(RESERVATION_TYPES.UPDATE_ONE) private readonly updateOne: UpdateOne,
+    @inject(RESERVATION_TYPES.QUIT_RESERVATION) private readonly quitReservation: QuitReservation,
     @inject("ErrorsAdapter") private readonly errorsAdapter: ErrorsAdapter
   ) { super(); }
 
@@ -42,6 +45,16 @@ export class ReservationController extends BaseHttpController {
     try {
       const userLogged = req.user;
       return await this.saveOne.exec(body, userLogged);
+    } catch (error: any) {
+      const response = this.errorsAdapter.run(error)
+      return res.status(response.code).send(response);
+    }
+  }
+  @httpPost("/quit-reservation", authenticateToken)
+  async quitReservationFromSlot(@requestBody() body: ReservationDelete, @response() res: Response, @request() req: Request) {
+    try {
+      const userLogged = req.user;
+      return await this.quitReservation.exec(body);
     } catch (error: any) {
       const response = this.errorsAdapter.run(error)
       return res.status(response.code).send(response);
