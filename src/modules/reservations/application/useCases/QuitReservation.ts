@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { RESERVATION_TYPES } from "../../infrastructure/types";
 import { ReservationRepository } from "../../infrastructure/reservationRepository";
 import { ReservationDelete } from "../../domain/dtos/reservation-delete.dto";
-import { validateModel } from "../../../../core/infrastructure/validators/validateModel";
+import { validateModel } from "@/core/infrastructure/validators/validateModel";
 
 @injectable()
 export default class QuitReservation {

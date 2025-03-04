@@ -1,5 +1,6 @@
 # usage user 
 
+# Common Users
 ```typescript
 {
     "id": 0,
@@ -30,4 +31,17 @@
     "description": "woodman",
     "email": "woodman@gmail.com"
 }
+```
 
+# USER ADMIN
+
+{
+    "id": 0,
+    "username": "user_admin",
+    "name": "user_admin",
+    "lastname": "user_admin",
+    "password": "user_admin",
+    "description": "user_admin",
+    "email": "user_admin@gmail.com",
+    "role": ["user", "admin"]
+}

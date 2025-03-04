@@ -12,6 +12,7 @@ import { loginDto } from "../domain/dtos/login.dto";
 import GetLoggedUser from "../application/useCases/GetLoggedUser";
 import { authenticateToken } from "../../../core/infrastructure/jwt";
 import { QueryFailedError } from "typeorm";
+import { verifyUserRole } from "@/core/infrastructure/middlewares/verifyUserRole";
 
 @controller(endpoint)
 export class UsersController extends BaseHttpController {
@@ -54,10 +55,9 @@ export class UsersController extends BaseHttpController {
     }
   }
 
-  @httpPost("/find")
+  @httpPost("/find", authenticateToken, verifyUserRole)
   async findUsers(@requestBody() body: any, @response() res: Response,@request() req: Request) {
     try {
-      console.log(req.user);
       return await this.find.exec();
     } catch (error: any) {
       this.validateErrors(error, req, res)

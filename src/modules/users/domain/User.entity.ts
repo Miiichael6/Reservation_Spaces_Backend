@@ -15,7 +15,7 @@ export class User {
   @IsString()
   @IsOptional()
   @Expose()
-  user_picture: string = ""
+  user_picture: string = "https://static.vecteezy.com/ti/vetor-gratis/p1/2387693-icone-do-perfil-do-usuario-vetor.jpg"
 
   @Column({ length: 50, nullable: false, unique: true })
   @IsString()

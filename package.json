@@ -7,9 +7,9 @@
     "build": "rm -rf dist && tsc",
     "tsup": "rm -rf dist && tsup",
     "serve": "node dist/index.js",
-    "dev": "dotenv -e .env.development -- nodemon index.ts",
     "start:dev": "dotenv -e .env.development -- nodemon -r tsconfig-paths/register index.ts",
-    "start:dev2": "nodemon --env-file=.env.development index.ts"
+    "start:dev2": "nodemon --env-file=.env.development index.ts",
+    "dev": "dotenv -e .env.development -- nodemon -r tsconfig-paths/register index.ts"
   },
   "keywords": [],
   "author": "Michael Jerry Canales Palomino",
