@@ -30,16 +30,16 @@ export default class SaveOne {
         this.user = await this.findLoggedUser(userLogged)
         await this.validateMaxQuantityOfReservedSlots();
         this.slot = await this.findChosenBooking(booking_id)
-        this.slotIsActive(this.slot);
+        // this.slotIsActive(this.slot);
         const new_reservation = this.handleSaveReservation({ reservation, user: this.user, booking: this.slot })
         return new_reservation;
     }
-    slotIsActive(slotChosen: Booking) {
-        //  si quiero reservar a las 8 pero ya son las 8, debe permitir porque ya empezó la sesion
-        const currentHour = Number(moment().format("HH:mm").split(":")[0]);
-        const isActive = slotChosen.hour_start === currentHour;
-        if(isActive) throw new Error("The slot already started, you can't make a reservation")
-    }
+    // slotIsActive(slotChosen: Booking) {
+    //     //  si quiero reservar a las 8 pero ya son las 8, debe permitir porque ya empezó la sesion
+    //     const currentHour = Number(moment().format("HH:mm").split(":")[0]);
+    //     const isActive = slotChosen.hour_start === currentHour;
+    //     if(isActive) throw new Error("The slot already started, you can't make a reservation")
+    // }
     async validateMaxQuantityOfReservedSlots() {
         const dateToday = moment().format("YYYY-MM-DD");
         //* with reservationRepo
@@ -58,12 +58,16 @@ export default class SaveOne {
     // verificar si el usuario hace una reserva de la misma hora y dia 
     verifySameDayAndHourAndFullSlot(slot: Booking) {
         const dateToday = moment().format("YYYY-MM-DD");
-        const userAlreadyApartedSlot = slot.reservation.find((res) => {
+        const [ hour, _minutes ] = moment().format("HH:mm").split(":");
+        const reservationsToday = slot.reservation.filter((res) => {
             const date = moment(res.created_at).format("YYYY-MM-DD");
-            return date === dateToday && res.user.id === this.user.id
+            return date === dateToday
         });
+        const userAlreadyApartedSlot = reservationsToday.find((res) =>  res.user.id === this.user.id);
+        if(Number(hour) === slot.hour_start) throw new Error("You can't make a reservation because this slot already started");
+        if(Number(hour) > slot.hour_start) throw new Error("You can't make a reservation because this slot has finished");
         if(userAlreadyApartedSlot) throw new Error("You can't make a reservation at the same hour twice");
-        if(slot.reservation.length === 5) throw new Error(`The slot is full, you can't make a reservation`);
+        if(reservationsToday.length === 5) throw new Error(`The slot is full, you can't make a reservation`);
         return slot;
     }
     async findChosenBooking(booking_id: number) {
