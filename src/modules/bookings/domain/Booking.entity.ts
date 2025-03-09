@@ -11,7 +11,7 @@ export class Booking {
     @IsNumber()
     @Expose()
     @Min(0)
-    id: number;
+    id: number = 0;
 
     @Column("varchar",{ length: 50, nullable: false })
     @IsString()
@@ -42,5 +42,5 @@ export class Booking {
         (reservation) => reservation.booking,
     )
     @JoinColumn({ name: 'reservation_id' }) 
-    reservation: Reservation[];
+    reservation!: Reservation[];
 }

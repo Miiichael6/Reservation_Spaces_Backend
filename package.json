@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "dotenv -e .env -- node dist/index.js",
-    "build": "rm -rf dist && tsc",
+    "build": "rm -rf dist && tsc && tsc-alias",
     "tsup": "rm -rf dist && tsup",
     "serve": "node dist/index.js",
     "start:dev": "dotenv -e .env.development -- nodemon -r tsconfig-paths/register index.ts",
@@ -27,6 +27,7 @@
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.11",
     "tsconfig-paths": "^4.2.0",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3"

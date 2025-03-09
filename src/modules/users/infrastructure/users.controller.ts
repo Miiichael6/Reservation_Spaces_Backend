@@ -51,7 +51,7 @@ export class UsersController extends BaseHttpController {
       return userLogged;
     } catch (error: any) {
       console.log(error);
-      res.status(400).send(error);
+      this.validateErrors(error, req, res)
     }
   }
 
@@ -80,6 +80,7 @@ export class UsersController extends BaseHttpController {
         detail: error.driverError.detail as string
       })
     }
-    res.status(500).send(error);
+    console.log(error);
+    res.status(500).send({ ok: false, error: error.message });
   }
 }

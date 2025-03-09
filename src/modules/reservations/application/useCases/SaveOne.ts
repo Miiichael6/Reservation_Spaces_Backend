@@ -30,16 +30,9 @@ export default class SaveOne {
         this.user = await this.findLoggedUser(userLogged)
         await this.validateMaxQuantityOfReservedSlots();
         this.slot = await this.findChosenBooking(booking_id)
-        // this.slotIsActive(this.slot);
         const new_reservation = this.handleSaveReservation({ reservation, user: this.user, booking: this.slot })
         return new_reservation;
     }
-    // slotIsActive(slotChosen: Booking) {
-    //     //  si quiero reservar a las 8 pero ya son las 8, debe permitir porque ya empezó la sesion
-    //     const currentHour = Number(moment().format("HH:mm").split(":")[0]);
-    //     const isActive = slotChosen.hour_start === currentHour;
-    //     if(isActive) throw new Error("The slot already started, you can't make a reservation")
-    // }
     async validateMaxQuantityOfReservedSlots() {
         const dateToday = moment().format("YYYY-MM-DD");
         //* with reservationRepo
@@ -80,13 +73,11 @@ export default class SaveOne {
         slot = this.verifySameDayAndHourAndFullSlot(slot)
         return slot;
     }
-
     async findLoggedUser(userLogged: Partial<User>) {
         const [ user ] = await this.userRepository.query(`SELECT * FROM users WHERE id = ${userLogged.id};`)
         if(!user) throw new Error("User doesn't not exist")
         return user
     }
-
     async handleSaveReservation({reservation, user, booking}: { reservation: Reservation, user: User, booking: Booking }) {
         const reserved: ReservedHoursDto = { 
             hour_end: booking.hour_end,
@@ -95,7 +86,6 @@ export default class SaveOne {
         reservation.reserved_hour = reserved;
         reservation.user = user;
         reservation.booking = booking;
-
         const reservationCreated = await this.reservationRepository.save(reservation);
         // delete reservationCreated.user;
         delete reservationCreated.user.password

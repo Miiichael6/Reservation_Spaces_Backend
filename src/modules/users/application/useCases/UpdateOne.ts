@@ -11,13 +11,16 @@ export default class UpdateOne {
     ) {}
 
     async exec(user: User) {
-        const toUpdate = {
+        if(!user.id) throw new Error("No se puede Actualizar usuario ya que no cuenta con 'id'")
+        const model = {
             id: user.id,
-            name: user.name + "111",
+            status: user.status,
         }
-        const userUpdated = await this.userRepository.save(toUpdate);
+        const userUpdated = await this.userRepository.save(model);
         const findUser = await this.userRepository.findOne({ where: { id: userUpdated.id } })
-        if(!findUser) throw { msg: "Error", detail: "pruebas de error" }
+        console.log(findUser);
+        if(!findUser) throw { msg: "Error", detail: "No se Actualizó" }
+        delete findUser.password;
         return findUser;
         
     }

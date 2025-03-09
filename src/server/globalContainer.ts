@@ -4,7 +4,7 @@ import { globSync } from "glob";
 export let container = new Container();
 
 export async function initContainers() {
-    console.log(`Modo Containers: ${process.env.NODE_ENV}`);
+    console.log(`>> Modo Containers: ${process.env.NODE_ENV} <<`.blue);
     const isProd = process.env.NODE_ENV === "production";
     const extension = isProd ? "js" : "ts";
     const files = globSync(`**/*.module.${extension}`,

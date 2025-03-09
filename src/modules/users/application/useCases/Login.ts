@@ -30,7 +30,7 @@ export default class Login {
     const token = jwt.sign(
       user, 
       process.env.JWT_SECRETKEY as string, 
-      { expiresIn: process.env.JWT_EXPIRATION }
+      { expiresIn: "30d" }
     );
     return token;
   }

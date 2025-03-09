@@ -25,7 +25,7 @@ async function bootstrap() {
         app.use(express.json());
         app.use(morgan("dev"))
         app.use(cors({
-            origin: JSON.parse(process.env.TEST_CORS),
+            origin: JSON.parse(process.env.TEST_CORS as string),
             methods: ["GET",'POST'],
             allowedHeaders: ['Content-Type', 'Authorization'],
         }));
@@ -36,7 +36,7 @@ async function bootstrap() {
     initWebSocket(httpServer)
     const PORT = process.env.PORT || 3000;
     httpServer.listen(PORT);
-    console.table(`>> Server up at port http://127.0.0.1:${PORT} <<`);
+    console.table(`>> Server up at port http://127.0.0.1:${PORT} <<`.cyan);
     console.timeEnd("Server up")
 }
 bootstrap()

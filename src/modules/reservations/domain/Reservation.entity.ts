@@ -23,7 +23,7 @@ export class Reservation {
   @ManyToOne(() => User, (user) => user.reservations)
   @IsOptional()
   @JoinColumn({ name: "user_id" })
-  user: User;
+  user!: User;
 
   @ManyToOne(
     () => Booking, 
@@ -33,7 +33,7 @@ export class Reservation {
   @Type(() => Booking)
   @IsOptional()
   @JoinColumn({ name: "booking_id" })
-  booking: Booking;
+  booking!: Booking;
 
   @CreateDateColumn({ type: "timestamp" })
   created_at: Date = new Date();

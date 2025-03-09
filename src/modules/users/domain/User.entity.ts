@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { IsArray, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Min, ValidateNested } from "class-validator"; 
+import { IsArray, IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Min, ValidateNested } from "class-validator"; 
 import { Exclude, Expose, Transform, Type } from "class-transformer";
 import { Reservation } from "../../reservations/domain/Reservation.entity";
 
@@ -36,6 +36,13 @@ export class User {
   @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @Expose()
   password: string = "";
+
+  @Column({ nullable: false })
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  status: "ACTIVE" | "INACTIVE" = "ACTIVE";
+
 
   @Column({ length: 10, nullable: false })
   @IsString()

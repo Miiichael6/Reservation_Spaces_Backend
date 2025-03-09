@@ -1,4 +1,8 @@
 services:
+  # app:
+  #   build: .
+  #   ports:
+  #     - "3000:3000"
   reservation_spaces: 
     container_name: reservation_spaces
     image: postgres:15.1

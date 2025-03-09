@@ -13,6 +13,7 @@ export default class GetLoggedUser {
     async exec(req: Request) {
         const userLogged = await this.userRepository.findOne({ where: { email: req.user?.email }})
         delete userLogged.password;
+        if(userLogged.status === "INACTIVE") throw new Error("User is Inactive , contact the admin to activate your account")
         return userLogged;
     }
 }
